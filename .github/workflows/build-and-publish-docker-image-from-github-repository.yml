@@ -56,11 +56,11 @@ jobs:
           ls -laR
         shell: bash
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v4.2.1
-      #   with:
-      #     context: .
-      #     file: ./.github/workflows/build-and-publish-docker-image-from-github-repository/Dockerfile
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      #     labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4.2.1
+        with:
+          context: repo
+          file: self/.github/workflows/build-and-publish-docker-image-from-github-repository/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
