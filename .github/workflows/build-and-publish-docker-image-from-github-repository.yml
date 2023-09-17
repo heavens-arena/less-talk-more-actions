@@ -41,6 +41,12 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ inputs.github_repository_url }}
 
+      - name: Debug
+        run: |
+          pwd
+          ls -laR
+        shell: bash
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.2.1
         with:
