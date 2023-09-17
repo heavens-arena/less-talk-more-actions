@@ -64,5 +64,5 @@ jobs:
           context: repo
           file: self/.github/workflows/build-and-publish-docker-image-from-github-repository/Dockerfile
           push: true
-          tags: ${{ inputs.git_branch_or_tag }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.github_repository_url }}:${{ inputs.git_branch_or_tag }}
           labels: ${{ steps.meta.outputs.labels }}
