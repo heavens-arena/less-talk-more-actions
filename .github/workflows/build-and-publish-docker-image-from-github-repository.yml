@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v4.2.1
         with:
           context: .
-          file: .github/workflows/build-and-publish-docker-image-from-github-repository/Dockerfile
+          file: ./.github/workflows/build-and-publish-docker-image-from-github-repository/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
