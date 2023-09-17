@@ -8,10 +8,6 @@ on:
       git_branch_or_tag:
         description: "Branch or tag to be used in the image"
         required: true
-    secrets:
-      PAT:
-        description: Personal Access Token to access the other repository
-        required: true
 
 env:
   REGISTRY: ghcr.io
@@ -21,6 +17,9 @@ jobs:
   # "Unmodularize" to ensure all the steps run in the same job,
   # and thus avoid upload/download artifacts. :(
     runs-on: ubuntu-latest
+    # env:
+    #   PAT: ${{ secrets.PAT }}
+
     permissions:
       contents: read
       packages: write
@@ -45,7 +44,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.PAT }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
