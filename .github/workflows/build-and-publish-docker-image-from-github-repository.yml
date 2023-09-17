@@ -4,8 +4,14 @@ on:
     inputs:
       github_repository_url:
         description: "Github public repository address to build the image for"
+        required: true
       git_branch_or_tag:
         description: "Branch or tag to be used in the image"
+        required: true
+    secrets:
+      PAT:
+        description: Personal Access Token to access the other repository
+        required: true
 
 env:
   REGISTRY: ghcr.io
@@ -22,12 +28,7 @@ jobs:
           repository: ${{ inputs.github_repository_url }}
           ref: ${{ inputs.git_branch_or_tag }}
 
-      - name: Extract repository name
-        shell: bash
-        run: echo "repository_name=$(basename "${${{ inputs.github_repository_url }}%.*}")" >> $GITHUB_OUTPUT
-        id: extract_repository_name
-
-      - name: Login to the contianer registry
+      - name: Login to the container registry
         uses: docker/login-action@v2.2.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -38,7 +39,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.6.0
         with:
-          images: ${{ env.REGISTRY }}/${{ steps.extract_repository_name.outputs.repository_name }}
+          images: ${{ env.REGISTRY }}/${{ inputs.github_repository_url }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.2.1
