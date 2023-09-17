@@ -50,7 +50,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.6.0
         with:
-          images: ${{ env.REGISTRY }}/${{ inputs.github_repository_url }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.github_repository_url }}
 
       - name: Debug
         run: |
@@ -64,5 +64,5 @@ jobs:
           context: repo
           file: self/.github/workflows/build-and-publish-docker-image-from-github-repository/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ inputs.git_branch_or_tag }}
           labels: ${{ steps.meta.outputs.labels }}
