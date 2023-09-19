@@ -17,12 +17,7 @@ jobs:
   # "Unmodularize" to ensure all the steps run in the same job,
   # and thus avoid upload/download artifacts. :(
     runs-on: ubuntu-latest
-    # env:
-    #   PAT: ${{ secrets.PAT }}
 
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout the Dockerfile
         uses: actions/checkout@v4
@@ -38,7 +33,6 @@ jobs:
           ref: ${{ inputs.git_branch_or_tag }}
           path: repo
 
-
       - name: Login to the container registry
         uses: docker/login-action@v2.2.0
         with:
@@ -51,12 +45,6 @@ jobs:
         uses: docker/metadata-action@v4.6.0
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}/${{ inputs.github_repository_url }}
-
-      - name: Debug
-        run: |
-          pwd
-          ls -laR
-        shell: bash
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.2.1
